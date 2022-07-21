@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-DBName = 'authentication'
+DBName = 'job_tracker'
 
 //This will create a database named DBName if one doesn't already exist (no need for mongo shell!)
 mongoose.connect(`mongodb://localhost/${DBName}`, { 
