@@ -1,10 +1,11 @@
 const jobController = require("../controllers/job.controller");
+const { authenticate } = require('../config/jwt.config');
 
 module.exports = (app) => {
     app.get("/", (req, res) => {res.json({msg: "all set up"})});
-    app.post("/api/job", jobController.createNewJob);
-    app.get("/api/job", jobController.getAllJobs);
-    app.get("/api/job/:id", jobController.getOneJob);
-    app.put("/api/job/:id", jobController.updateJob);
-    app.delete("/api/job/:id", jobController.deleteJob);
+    app.post("/api/jobs", authenticate, jobController.createNewJob);
+    app.get("/api/jobs", authenticate, jobController.getAllJobs);
+    app.get("/api/jobs/:id", authenticate, jobController.getOneJob);
+    app.put("/api/jobs/:id", authenticate, jobController.updateJob);
+    app.delete("/api/jobs/:id", authenticate, jobController.deleteJob);
 };

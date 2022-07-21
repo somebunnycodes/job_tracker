@@ -1,6 +1,7 @@
 const User = require('../models/user.model')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const UserToken = require('../util/UserToken')
 
 // registration
 module.exports.register = async(req, res) => {
@@ -9,9 +10,7 @@ module.exports.register = async(req, res) => {
     users = await User.find({email: req.body.email})
     if (users.length!==0) return res.status(400).json( {errors: {email: {message: 'Email already taken'}}})
     user = await User.create(req.body)
-    const userToken = jwt.sign({
-      id: user._id
-    }, process.env.SECRET_KEY)
+    const userToken = UserToken.create(user)
 
     res.cookie("usertoken", userToken, process.env.SECRET_KEY, {
       httpOnly: true
@@ -21,22 +20,6 @@ module.exports.register = async(req, res) => {
     res.status(400).json(err)
   }
 }
-// // registration
-// module.exports.register = (req, res) => {
-//   console.log(req.body)
-//   User.create(req.body)
-//     .then(user => {
-//       const userToken = jwt.sign({
-//         id: user._id
-//       }, process.env.SECRET_KEY)
-
-//       res.cookie("usertoken", userToken, process.env.SECRET_KEY, {
-//         httpOnly: true
-//       })
-//       .json({ msg: "success!", user: user })
-//     })
-//     .catch(err => res.status(400).json(err))
-// }
 
 // login
 module.exports.login = async(req, res) => {
@@ -57,9 +40,8 @@ module.exports.login = async(req, res) => {
   }
 
   // if we made it this far, the password was correct
-  const userToken = jwt.sign({
-    id: user._id
-  }, process.env.SECRET_KEY)
+  const userToken = UserToken.create(user)
+  console.log(JSON.stringify(userToken))
 
   // note that the response object allows chained calls to cookie and json
   res.cookie("usertoken", userToken, process.env.SECRET_KEY, {
@@ -70,10 +52,13 @@ module.exports.login = async(req, res) => {
 
 // get logged in user
 module.exports.getLoggedInUser = (req, res) => {
-  const decodedJWT = jwt.decode(req.cookies.userToken, { complete: true })
+  // const decodedJWT = jwt.decode(req.cookies.usertoken, { complete: true })
+  const userToken = UserToken.get(req.cookies)
 
-  User.findbyId(decodedJWT.payload._id)
-    .then(user => res.json(user))
+  User.findById(userToken.payload._id)
+    .then(user => {
+      res.json(user)
+    })
     .catch(err => res.json(err))
 }
 

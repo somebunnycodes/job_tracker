@@ -8,18 +8,19 @@ const UserList = () => {
   const navigate = useNavigate()
 
   const getLoggedInUser = () => {
-    axios.get('http://localhost:8000/api/users',
+    axios.get('http://localhost:8000/api/users/loggedin',
       {withCredentials: true})
     .then(res => console.log(res))
     .catch(err => console.log(err))
   }
+
+  getLoggedInUser()
 
   useEffect(() => {
     axios.get('http://localhost:8000/api/users',
       {withCredentials: true})
     .then(res => {
       setUsers(res.data)
-      console.log(res)
     })
     .catch(err => {
       console.log('not authorized')
