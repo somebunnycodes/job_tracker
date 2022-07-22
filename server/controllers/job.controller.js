@@ -2,23 +2,25 @@ const Job = require("../models/job.model");
 const UserToken = require('../util/UserToken');
 
 const createNewJob = (req, res) => {
+    // set job user_id to user_id in web token
+    req.body.user_id = UserToken.get(req.cookies).payload._id
     Job.create(req.body)
-    .then((newJob) => {
-        res.json({ newJob });
-        })
-    .catch((err) => {
-        res.status(400).json({ err });
-        });
+        .then((newJob) => {
+            res.json({ newJob });
+            })
+        .catch((err) => {
+            res.status(400).json({ err });
+            });
 };
 
 const getAllJobs = (req, res) => {
     Job.find()
-    .then((allJobs) => {
-        res.json(allJobs);
-        })
-    .catch((err) => {
-        res.status(400).json({ err });
-        });
+        .then((allJobs) => {
+            res.json(allJobs);
+            })
+        .catch((err) => {
+            res.status(400).json({ err });
+            });
 };
 
 const getUserJobs = (req, res) => {
@@ -37,16 +39,16 @@ const getOneJob = (req, res) => {
     const user_id = UserToken.get(req.cookies).payload._id
     
     Job.findOne({ _id: req.params.id })
-    .then((queriedJob) => {
-        if (queriedJob.user_id!==user_id) {
-            res.status(400).json({error: 'You do not have access to this resource'})
-            return
-        }
-        res.json(queriedJob);
-        })
-    .catch((err) => {
-        res.status(400).json({ err });
-        });
+        .then((queriedJob) => {
+            if (queriedJob.user_id!==user_id) {
+                res.status(400).json({error: 'You do not have access to this resource'})
+                return
+            }
+            res.json(queriedJob);
+            })
+        .catch((err) => {
+            res.status(400).json({ err });
+            });
 };
 
 const updateJob = async(req, res) => {

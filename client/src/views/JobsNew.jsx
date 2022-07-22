@@ -11,7 +11,7 @@ const JobsNew = () => {
   const navigate = useNavigate()
 
   const createJob = () => {
-    axios.post('http://localhost:8000/api/jobs', {...job, user_id: localStorage.getItem('userId')}, {withCredentials: true})
+    axios.post('http://localhost:8000/api/jobs', job, {withCredentials: true})
       .then(res => {
         setValidationErrors({})
         navigate('/jobs')
