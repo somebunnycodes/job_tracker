@@ -1,5 +1,4 @@
 import React from 'react'
-import ButtonLogout from './ButtonLogout'
 
 const Header = ({ children }) => {
   const { right } = children

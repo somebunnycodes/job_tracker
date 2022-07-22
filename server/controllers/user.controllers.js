@@ -41,7 +41,6 @@ module.exports.login = async(req, res) => {
 
   // if we made it this far, the password was correct
   const userToken = UserToken.create(user)
-  console.log(JSON.stringify(userToken))
 
   // note that the response object allows chained calls to cookie and json
   res.cookie("usertoken", userToken, process.env.SECRET_KEY, {
@@ -54,9 +53,6 @@ module.exports.login = async(req, res) => {
 module.exports.getLoggedInUser = (req, res) => {
   // const decodedJWT = jwt.decode(req.cookies.usertoken, { complete: true })
   const userToken = UserToken.get(req.cookies)
-
-  console.log('user request')
-
   User.findById(userToken.payload._id)
     .then(user => {
       // use toObject method to be able to delete a key-value pair
