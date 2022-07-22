@@ -22,9 +22,10 @@ const getAllJobs = (req, res) => {
 };
 
 const getUserJobs = (req, res) => {
+    // find jobs associated with user
     Job.find({user_id: UserToken.get(req.cookies).payload._id})
-        .then((allJobs) => {
-            res.json(allJobs);
+        .then((userJobs) => {
+            res.json(userJobs);
             })
         .catch((err) => {
             res.status(400).json({ err });
@@ -32,8 +33,15 @@ const getUserJobs = (req, res) => {
 };
 
 const getOneJob = (req, res) => {
+    // authenticate user requesting job
+    const user_id = UserToken.get(req.cookies).payload._id
+    
     Job.findOne({ _id: req.params.id })
     .then((queriedJob) => {
+        if (queriedJob.user_id!==user_id) {
+            res.status(400).json({error: 'You do not have access to this resource'})
+            return
+        }
         res.json(queriedJob);
         })
     .catch((err) => {
@@ -41,27 +49,40 @@ const getOneJob = (req, res) => {
         });
 };
 
-const updateJob = (req, res) => {
-    Job.findOneAndUpdate({ _id: req.params.id }, req.body, {
-        new: true,
-        runValidators: true,
+const updateJob = async(req, res) => {
+    try {
+        // authenticate user updating job
+        const user_id = UserToken.get(req.cookies).payload._id
+        const job = await Job.findOne({ _id: req.params.id })
+        if (job.user_id!==user_id) {
+            res.status(400).json({error: 'You do not have access to this resource'})
+            return
+        }
+        const updatedJob = await Job.findOneAndUpdate({ _id: req.params.id }, req.body, {
+            new: true,
+            runValidators: true,
         })
-    .then((updatedJob) => {
-        res.json({ updatedJob });
-        })
-    .catch((err) => {
-        res.status(400).json({ err });
-        });
+        res.json({ updatedJob })
+    } catch(err) {
+        res.status(400).json({ err })
+    }
 };
 
-const deleteJob = (req, res) => {
-    Job.deleteOne({ _id: req.params.id })
-    .then((deletedResponse) => {
-        res.json({ deletedResponse });
-        })
-    .catch((err) => {
-        res.status(400).json({ err });
-        });
+const deleteJob = async(req, res) => {
+    try {
+        // authenticate user deleting job
+        const user_id = UserToken.get(req.cookies).payload._id
+        const job = await Job.findOne({ _id: req.params.id })
+        if (job.user_id!==user_id) {
+            res.status(400).json({error: 'You do not have access to this resource'})
+            return
+        }
+        const deleteResponse = await Job.deleteOne({ _id: req.params.id })
+        res.json({ deleteResponse })
+    } catch(err) {
+        res.status(400).json(err)
+    }
+    
 };
 
 module.exports = {

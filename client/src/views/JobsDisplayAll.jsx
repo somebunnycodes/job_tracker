@@ -5,7 +5,7 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import HeaderUser from '../components/HeaderUser'
 
-const JobsAll = () => {
+const JobsDisplayAll = () => {
   const navigate = useNavigate()
   const [jobs, setJobs] = useState([])
 
@@ -13,7 +13,7 @@ const JobsAll = () => {
     axios.get('http://localhost:8000/api/jobs', {withCredentials: true})
       .then(res => setJobs(res.data))
       .catch(err => console.log(err))
-    },[])
+  },[])
 
   return (
     <>
@@ -22,6 +22,7 @@ const JobsAll = () => {
           <Link to='/jobs/new' style={{ color: 'inherit', textDecoration: 'inherit'}}>New Job</Link>
         </button>
       </HeaderUser>
+      <h2>My Jobs</h2>
       <table className="table">
         <tbody>
           <tr>
@@ -37,8 +38,6 @@ const JobsAll = () => {
             <td>
               <Link to={`/jobs/${job._id}`}>{job.company}</Link>
             </td>
-            <td className="d-flex">
-            </td>
           </tr>)}
         </tbody>
       </table>
@@ -46,4 +45,4 @@ const JobsAll = () => {
   )
 }
 
-export default JobsAll
+export default JobsDisplayAll

@@ -18,13 +18,12 @@ const HeaderUser = ({ children }) => {
         <h1 className='col-sm d-flex justify-content-center'>Job Tracker</h1>
         <div className="col-sm d-flex justify-content-end">
           <div>
-
-          {children ? children : rightDefault()}
-          <ButtonLogout />
+            {children ? children : rightDefault()}
+            <ButtonLogout />
           </div>
         </div>
       </div>
-      <hr />
+      <hr className='mt-1 mb-3' />
     </>
   )
 }

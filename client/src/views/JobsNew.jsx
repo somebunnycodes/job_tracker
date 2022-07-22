@@ -24,9 +24,7 @@ const JobsNew = () => {
   
   return (
     <>
-      <HeaderUser>
-      
-      </HeaderUser>
+      <HeaderUser />
       <JobForm job={job} setJob={setJob} submitText='Submit' onSubmitProp={createJob} validationErrors={validationErrors} />
     </>
   )

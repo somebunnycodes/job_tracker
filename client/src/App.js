@@ -8,8 +8,10 @@ import UserList from './views/UserList'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import ButtonLogout from './components/ButtonLogout'
-import JobsAll from './views/JobsAll'
+import JobsDisplayAll from './views/JobsDisplayAll'
 import JobsNew from './views/JobsNew'
+import JobsDisplayOne from './views/JobsDisplayOne'
+import JobsEdit from './views/JobsEdit'
 
 
 function App() {
@@ -25,8 +27,10 @@ function App() {
         <Route path="users" element={<UserList />} />
 
         {/* jobs routes */}
-        <Route path="jobs" element={<JobsAll />} />
+        <Route path="jobs" element={<JobsDisplayAll />} />
         <Route path="jobs/new" element={<JobsNew />} />
+        <Route path="jobs/:job_id" element={<JobsDisplayOne />} />
+        <Route path="jobs/:job_id/edit" element={<JobsEdit />} />
 
       </Routes>
     </div>

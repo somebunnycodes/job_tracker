@@ -12,7 +12,7 @@ const JobForm = (props) => {
   return (
     <form onSubmit={onSubmitHandler} className='card p-4'>
       <div className='d-flex'>
-        <div className='me-4 flex-fill'>
+        <div className='me-5 flex-fill'>
           
           <label>Job Title:</label>
           { errors.title && <p className='text-danger'>{errors.title.message}</p> }
@@ -34,6 +34,9 @@ const JobForm = (props) => {
           { errors.description && <p className='text-danger'>{errors.description.message}</p> }
           <textarea cols="20" rows="3" className="form-control mb-2" value={job.description} onChange={(e) => setJob({...job, description: e.target.value})}></textarea>
 
+        </div>
+        <div className="flex-fill">
+
           <label>Application Due:</label>
           { errors.application_due && <p className='text-danger'>{errors.application_due.message}</p> }
           <input type="date" className="form-control mb-2" value={job.application_due} onChange={(e) => setJob({...job, application_due: e.target.value})}></input>
@@ -50,10 +53,10 @@ const JobForm = (props) => {
           { errors.stage && <p className='text-danger'>{errors.stage.message}</p> }
           <input type="number" value={job.stage} onChange={(e) => setJob({...job, stage: e.target.value})} min='1' max='10' className="form-control mb-2"/>
 
-        </div>
-      </div>
       <div className="mt-2">
         <input type="submit" value={submitText} className="btn btn-primary" />
+      </div>
+        </div>
       </div>
     </form>
   )
