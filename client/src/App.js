@@ -1,29 +1,34 @@
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
+
 import LogReg from "./views/LogReg"
 import UserList from './views/UserList'
-import LoginForm from './views/LoginForm'
+import SignIn from './components/SignIn'
+import SignUp from './components/SignUp'
 import ButtonLogout from './components/ButtonLogout'
+import JobsAll from './views/JobsAll'
+import JobsNew from './views/JobsNew'
 
 
 function App() {
   const navigate = useNavigate()
   
+  
   return (
     <div className='container mt-2'>
-      <div className="d-flex justify-content-between">
-        <h2>MERN Users</h2>
-        <ButtonLogout />
-      </div>
       <Routes>
-        <Route path="/" element={<LogReg />} />
-        <Route path="/users" element={<UserList />} />
-        <Route path="/login" element={<LoginForm />} />
+        <Route index element={<SignIn />} />
+        <Route path="login" element={<SignIn />} />
+        <Route path="register" element={<SignUp />} />
+        <Route path="users" element={<UserList />} />
+
+        {/* jobs routes */}
+        <Route path="jobs" element={<JobsAll />} />
+        <Route path="jobs/new" element={<JobsNew />} />
+
       </Routes>
-      <div className='mt-2'>
-        <Link to='/users'>Get Users List</Link>
-      </div>
     </div>
   );
 }

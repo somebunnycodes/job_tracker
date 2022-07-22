@@ -14,8 +14,6 @@ const UserList = () => {
     .catch(err => console.log(err))
   }
 
-  getLoggedInUser()
-
   useEffect(() => {
     axios.get('http://localhost:8000/api/users',
       {withCredentials: true})

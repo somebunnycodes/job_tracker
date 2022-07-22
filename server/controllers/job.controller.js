@@ -1,4 +1,5 @@
 const Job = require("../models/job.model");
+const UserToken = require('../util/UserToken');
 
 const createNewJob = (req, res) => {
     Job.create(req.body)
@@ -18,6 +19,16 @@ const getAllJobs = (req, res) => {
     .catch((err) => {
         res.status(400).json({ err });
         });
+};
+
+const getUserJobs = (req, res) => {
+    Job.find({user_id: UserToken.get(req.cookies).payload._id})
+        .then((allJobs) => {
+            res.json(allJobs);
+            })
+        .catch((err) => {
+            res.status(400).json({ err });
+            });
 };
 
 const getOneJob = (req, res) => {
@@ -56,6 +67,7 @@ const deleteJob = (req, res) => {
 module.exports = {
     createNewJob,
     getAllJobs,
+    getUserJobs,
     getOneJob,
     updateJob,
     deleteJob,

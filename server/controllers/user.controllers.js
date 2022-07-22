@@ -55,8 +55,13 @@ module.exports.getLoggedInUser = (req, res) => {
   // const decodedJWT = jwt.decode(req.cookies.usertoken, { complete: true })
   const userToken = UserToken.get(req.cookies)
 
+  console.log('user request')
+
   User.findById(userToken.payload._id)
     .then(user => {
+      // use toObject method to be able to delete a key-value pair
+      user = user.toObject()
+      delete user.password
       res.json(user)
     })
     .catch(err => res.json(err))

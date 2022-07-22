@@ -10,8 +10,9 @@ const ButtonLogout = () => {
     {},
     // need to send cookie in request so the server can clear it
     {withCredentials: true}) 
-    .then(res => {
-      console.log(res)
+      .then(res => {
+        console.log(res)
+        localStorage.clear()
         navigate('/')
       })
       .catch(err => console.log(err))
