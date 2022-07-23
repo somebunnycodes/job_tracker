@@ -23,7 +23,6 @@ const SignUp = () => {
       { withCredentials: true }
     )
       .then(res => {
-        console.log(res);
         setFirstName('');
         setLastName('');
         setEmail('');
