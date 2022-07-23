@@ -1,14 +1,14 @@
-import { Routes, Route } from 'react-router-dom'
-import SignIn from './components/SignIn'
-import SignUp from './components/SignUp'
-import JobsDisplayAll from './views/JobsDisplayAll'
-import JobsNew from './views/JobsNew'
-import JobsDisplayOne from './views/JobsDisplayOne'
-import JobsEdit from './views/JobsEdit'
+import { Routes, Route } from 'react-router-dom';
+import SignIn from './views/SignIn';
+import SignUp from './views/SignUp';
+import JobsDisplayAll from './views/JobsDisplayAll';
+import JobsNew from './views/JobsNew';
+import JobsDisplayOne from './views/JobsDisplayOne';
+import JobsEdit from './views/JobsEdit';
 
 
 function App() {
-  
+
   return (
     <div className='container mt-2'>
       <Routes>

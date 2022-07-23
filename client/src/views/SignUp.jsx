@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Header from './Header'
+import Header from '../components/Header'
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState('')
