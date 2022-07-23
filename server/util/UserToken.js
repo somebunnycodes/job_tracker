@@ -1,11 +1,16 @@
 const jwt = require('jsonwebtoken')
+const { SECRET_KEY } = require('../config/jwt.config');
 
-module.exports.create = (user) => {
+const create = (user) => {
   return jwt.sign({
     _id: user._id
-  }, process.env.SECRET_KEY)
+  }, SECRET_KEY)
 }
 
-module.exports.get = (cookies) => {
+const get = (cookies) => {
   return jwt.decode(cookies.usertoken, { complete: true })
+}
+
+module.exports = {
+  create, get
 }

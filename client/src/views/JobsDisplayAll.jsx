@@ -3,22 +3,24 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+
 import HeaderUser from '../components/HeaderUser'
+import { REACT_APP_API_URI } from "../config";
 
 const JobsDisplayAll = () => {
   const [jobs, setJobs] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/jobs', {withCredentials: true})
+    axios.get(`${REACT_APP_API_URI}/api/jobs`, { withCredentials: true })
       .then(res => setJobs(res.data))
       .catch(err => console.log(err))
-  },[])
+  }, [])
 
   return (
     <>
       <HeaderUser>
         <button className='btn btn-secondary me-2'>
-          <Link to='/jobs/new' style={{ color: 'inherit', textDecoration: 'inherit'}}>New Job</Link>
+          <Link to='/jobs/new' style={{ color: 'inherit', textDecoration: 'inherit' }}>New Job</Link>
         </button>
       </HeaderUser>
       <h2>My Jobs</h2>

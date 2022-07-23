@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import HeaderUser from '../components/HeaderUser'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+
+import HeaderUser from '../components/HeaderUser'
+import { REACT_APP_API_URI } from "../config";
 
 const JobsDisplayOne = () => {
   const [job, setJob] = useState({})
   const { job_id } = useParams()
   const navigate = useNavigate()
-  
+
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/jobs/${job_id}`, {withCredentials: true})
+    axios.get(`${REACT_APP_API_URI}/api/jobs/${job_id}`, { withCredentials: true })
       .then(res => setJob(res.data))
       .catch(err => console.log(err))
-  },[])
+  }, [])
 
-  const tableFieldStyle = {fontWeight: '700'}
+  const tableFieldStyle = { fontWeight: '700' }
 
   const deleteJob = () => {
-    axios.delete(`http://localhost:8000/api/jobs/${job_id}`, {withCredentials: true})
+    axios.delete(`${REACT_APP_API_URI}/api/jobs/${job_id}`, { withCredentials: true })
       .then(res => {
         navigate('/jobs')
       })
       .catch(err => console.log(err))
   }
-  
+
   return (
     <>
       <HeaderUser />
@@ -57,15 +59,15 @@ const JobsDisplayOne = () => {
             </table>
           </div>
           <div className="flex-fill">
-          <table>
+            <table>
               <tbody>
                 <tr>
                   <td style={tableFieldStyle}>Application Due:</td>
-                  <td>{job.application_due && job.application_due.slice(0,10)}</td>
+                  <td>{job.application_due && job.application_due.slice(0, 10)}</td>
                 </tr>
                 <tr>
                   <td style={tableFieldStyle}>Date Applied:</td>
-                  <td>{job.date_applied && job.date_applied.slice(0,10)}</td>
+                  <td>{job.date_applied && job.date_applied.slice(0, 10)}</td>
                 </tr>
                 <tr>
                   <td style={tableFieldStyle}>Misc:</td>
@@ -81,7 +83,7 @@ const JobsDisplayOne = () => {
         </div>
       </div>
       <button className='btn btn-warning me-2'>
-        <Link to={`/jobs/${job_id}/edit`} style={{ color: 'inherit', textDecoration: 'inherit'}}>Edit</Link>
+        <Link to={`/jobs/${job_id}/edit`} style={{ color: 'inherit', textDecoration: 'inherit' }}>Edit</Link>
       </button>
       <button className='btn btn-danger me-2' onClick={() => deleteJob()}>Delete</button>
     </>

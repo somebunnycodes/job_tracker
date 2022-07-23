@@ -1,7 +1,8 @@
-const User = require('../models/user.model')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const UserToken = require('../util/UserToken')
+const User = require('../models/user.model');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const UserToken = require('../util/UserToken');
+const { SECRET_KEY } = require('../config/jwt.config');
 
 // registration
 const register = async (req, res) => {
@@ -12,7 +13,7 @@ const register = async (req, res) => {
     user = await User.create(req.body)
     const userToken = UserToken.create(user)
 
-    res.cookie("usertoken", userToken, process.env.SECRET_KEY, {
+    res.cookie("usertoken", userToken, SECRET_KEY, {
       httpOnly: true
     })
       .json({ msg: "success!", user: user });
@@ -43,7 +44,7 @@ const login = async (req, res) => {
   const userToken = UserToken.create(user)
 
   // note that the response object allows chained calls to cookie and json
-  res.cookie("usertoken", userToken, process.env.SECRET_KEY, {
+  res.cookie("usertoken", userToken, SECRET_KEY, {
     httpOnly: true
   })
     .json({ msg: "success!" });
@@ -52,7 +53,7 @@ const login = async (req, res) => {
 // get logged in user
 const getLoggedInUser = (req, res) => {
   // const decodedJWT = jwt.decode(req.cookies.usertoken, { complete: true })
-  const userToken = UserToken.get(req.cookies)
+  const userToken = UserToken.get(req.cookies);
   User.findById(userToken.payload._id)
     .then(user => {
       // use toObject method to be able to delete a key-value pair
