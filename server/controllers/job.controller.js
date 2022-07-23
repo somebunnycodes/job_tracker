@@ -6,7 +6,7 @@ const createNewJob = (req, res) => {
     req.body.user_id = UserToken.get(req.cookies).payload._id
     Job.create(req.body)
         .then((newJob) => {
-            res.json({ newJob });
+            res.json(newJob);
             })
         .catch((err) => {
             res.status(400).json({ err });
@@ -32,6 +32,17 @@ const getUserJobs = (req, res) => {
         .catch((err) => {
             res.status(400).json({ err });
             });
+};
+
+const getCompanyJobs = (req, res) => {
+    // find jobs associated with user
+    Job.find({company_id: req.params.company_id})
+        .then((companyJobs) => {
+            res.json(companyJobs);
+        })
+        .catch((err) => {
+            res.status(400).json({ err });
+        });
 };
 
 const getOneJob = (req, res) => {
@@ -90,6 +101,7 @@ const deleteJob = async(req, res) => {
 module.exports = {
     createNewJob,
     getAllJobs,
+    getCompanyJobs,
     getUserJobs,
     getOneJob,
     updateJob,

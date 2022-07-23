@@ -41,7 +41,7 @@ const JobsDisplayOne = () => {
                 </tr>
                 <tr>
                   <td style={tableFieldStyle}>Company:</td>
-                  <td>{job.company}</td>
+                  <td>{job.company_name}</td>
                 </tr>
                 <tr>
                   <td style={tableFieldStyle}>Languages:</td>
@@ -74,7 +74,7 @@ const JobsDisplayOne = () => {
                   <td>{job.misc}</td>
                 </tr>
                 <tr>
-                  <td style={tableFieldStyle}>tage:</td>
+                  <td style={tableFieldStyle}>Stage:</td>
                   <td>{job.stage}</td>
                 </tr>
               </tbody>

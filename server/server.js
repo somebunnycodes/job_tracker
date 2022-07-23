@@ -9,13 +9,17 @@ const app = express();
 // cookies in express
 app.use(cookieParser());
 // Change the app.use(cors()) to the one below
-const FRONTEND_URI = process.env.FRONTEND_URI || 'http://localhost:3000';
-console.log(`Configuring CORS with frontend URI ${FRONTEND_URI}`);
-app.use(cors({credentials: true, origin: FRONTEND_URI}));
+const ORIGIN = ['http://localhost:3000'];
+if (process.env.FRONTEND_URI) {
+    ORIGIN.push(process.env.FRONTEND_URI);
+}
+console.log(`Configuring CORS with origin ${ORIGIN}`);
+app.use(cors({credentials: true, origin: ORIGIN}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));   // This allows JSON Objects with strings and arrays
 
 require('./routes/user.routes')(app);
 require("./routes/job.routes")(app);
+require("./routes/company.routes")(app);
 const port = 8000;
 app.listen(port, () => console.log(`Listening on port: ${port}`));

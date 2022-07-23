@@ -12,10 +12,16 @@ const JobSchema = mongoose.Schema( {
         minLength: [3, "Title must be at least 3 characters"],
     },
 
-    company: {
+    // Company ID comes from company collection, so needs to not be null / empty / zero
+    company_id: {
         type: String,
-        required: [true, "Company is required"],
-        minLength: [1, "Company must be at least 1 character"],
+        required: [true, "Company ID is required"],
+    },
+
+    // Company name comes from company collection - name validation happens there, so just needs to not be null
+    company_name: {
+        type: String,
+        required: [true, "Company name is required"]
     },
 
     languages: {

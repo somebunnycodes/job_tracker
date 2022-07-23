@@ -6,6 +6,7 @@ module.exports = (app) => {
     app.post("/api/jobs", authenticate, jobController.createNewJob);
     app.get("/api/jobs", authenticate, jobController.getUserJobs);
     app.get("/api/jobs/:id", authenticate, jobController.getOneJob);
+    app.get("/api/companies/:company_id/jobs", authenticate, jobController.getCompanyJobs);
     app.put("/api/jobs/:id", authenticate, jobController.updateJob);
     app.delete("/api/jobs/:id", authenticate, jobController.deleteJob);
 };
